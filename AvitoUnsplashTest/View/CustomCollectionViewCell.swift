@@ -42,19 +42,21 @@ class CustomCollectionViewCell: UICollectionViewCell {
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor),
-            imageView.heightAnchor.constraint(equalToConstant: 60),// Make the image square
             
-            // Label constraints (below the image view)
+            {
+                let constraint = imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor)
+                constraint.priority = UILayoutPriority(999)
+                return constraint
+            }(),
+            
             label.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8),
             label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
             label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
-            label.heightAnchor.constraint(equalToConstant: 20) // Fixed height for label
+            label.heightAnchor.constraint(equalToConstant: 20)
         ])
     }
     
-    // If you are using storyboards, you'll need this initializer as well
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }

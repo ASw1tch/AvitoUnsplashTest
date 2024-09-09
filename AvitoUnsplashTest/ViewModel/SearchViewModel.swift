@@ -15,12 +15,34 @@ class SearchViewModel {
     var onLoading: ((Bool) -> Void)?
     var onSuccess: (() -> Void)?
     
-    // MARK: - Поиск изображений (первая загрузка)
+    private let searchHistoryKey = "searchHistory"
+    private let maxHistoryCount = 5
+    
+    func saveSearchQuery(_ query: String) {
+        var history = getSearchHistory()
+        
+        if let existingIndex = history.firstIndex(of: query) {
+            history.remove(at: existingIndex)
+        }
+        
+        history.insert(query, at: 0)
+        
+        if history.count > maxHistoryCount {
+            history = Array(history.prefix(maxHistoryCount))
+        }
+        
+        UserDefaults.standard.set(history, forKey: searchHistoryKey)
+    }
+    
+    func getSearchHistory() -> [String] {
+        return UserDefaults.standard.stringArray(forKey: searchHistoryKey) ?? []
+    }
+    
     func searchImages(query: String) {
-        onLoading?(true) // Включаем индикатор
+        onLoading?(true)
         
         networkManager.searchImages(query: query) { [weak self] result in
-            self?.onLoading?(false) // Отключаем индикатор
+            self?.onLoading?(false)
             
             switch result {
             case .success(let results):
@@ -32,23 +54,22 @@ class SearchViewModel {
         }
     }
     
-    // MARK: - Догрузка изображений (следующие страницы)
     func loadMoreImages(query: String) {
-        // Проверяем, не грузим ли данные уже и есть ли ещё страницы
+        
         guard !networkManager.isLoadingMore && networkManager.currentPage < networkManager.totalPages else {
             return
         }
         
         networkManager.isLoadingMore = true
-        onLoading?(true) // Включаем индикатор для догрузки
+        onLoading?(true)
         
         networkManager.searchImages(query: query, page: networkManager.currentPage + 1) { [weak self] result in
-            self?.onLoading?(false) // Отключаем индикатор после загрузки
+            self?.onLoading?(false)
             self?.networkManager.isLoadingMore = false
             
             switch result {
             case .success(let newResults):
-                self?.results.append(contentsOf: newResults) // Добавляем новые результаты
+                self?.results.append(contentsOf: newResults)
                 self?.onSuccess?()
             case .failure(let error):
                 self?.onError?(error.localizedDescription)
