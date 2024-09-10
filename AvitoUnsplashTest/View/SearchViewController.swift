@@ -14,10 +14,13 @@ class SearchViewController: UIViewController {
     private var activityIndicator: UIActivityIndicatorView!
     private var noResultsLabel: UILabel!
     private var tableView: UITableView!
+    private var displayFormatControl: UISegmentedControl!
+    
     
     private var viewModel = SearchViewModel()
     private var suggestions: [String] = []
     private var filteredSuggestions: [String] = []
+    private var isFirstPageLoading = true
     
     let maxVisibleSuggestions = 5
     var tableViewHeightConstraint: NSLayoutConstraint!
@@ -31,6 +34,10 @@ class SearchViewController: UIViewController {
         
         suggestions = viewModel.getSearchHistory()
         filteredSuggestions = suggestions
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapOutside))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
     }
     
     // MARK: - Setup Methods
@@ -60,20 +67,22 @@ class SearchViewController: UIViewController {
         view.addSubview(noResultsLabel)
         
         let layout = UICollectionViewFlowLayout()
-        layout.minimumInteritemSpacing = 1
-        layout.minimumLineSpacing = 1
-        layout.itemSize = CGSize(width: view.frame.size.width/2 - 1, height: view.frame.size.width/2 - 1)
+        updateLayoutForTwoColumns(layout)
         
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(CustomCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.layoutIfNeeded()
-        collectionView.backgroundColor = .clear
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        
         view.addSubview(collectionView)
         
+        displayFormatControl = UISegmentedControl(items: ["Two Columns", "Single Column"])
+        displayFormatControl.selectedSegmentIndex = 0
+        displayFormatControl.addTarget(self, action: #selector(changeDisplayFormat), for: .valueChanged)
+        displayFormatControl.translatesAutoresizingMaskIntoConstraints = false
+        displayFormatControl.isHidden = true
+        view.addSubview(displayFormatControl)
+       
         NSLayoutConstraint.activate([
             searchBar.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -82,7 +91,12 @@ class SearchViewController: UIViewController {
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             
-            collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 10),
+            displayFormatControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            displayFormatControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            displayFormatControl.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 10),
+            displayFormatControl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            collectionView.topAnchor.constraint(equalTo: displayFormatControl.bottomAnchor, constant: 10),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -95,7 +109,7 @@ class SearchViewController: UIViewController {
     private func setupBindings() {
         viewModel.onLoading = { [weak self] isLoading in
             DispatchQueue.main.async {
-                if isLoading {
+                if isLoading && self?.isFirstPageLoading == true {
                     self?.activityIndicator.startAnimating()
                     self?.collectionView.isHidden = true
                 } else {
@@ -118,8 +132,11 @@ class SearchViewController: UIViewController {
                 self?.collectionView.reloadData()
                 if self?.viewModel.results.isEmpty == true {
                     self?.showNoResultsLabel()
+                    self?.displayFormatControl.isHidden = true
                 } else {
                     self?.hideNoResultsLabel()
+                    self?.displayFormatControl.isHidden = false
+                    self?.isFirstPageLoading = false
                 }
             }
         }
@@ -141,7 +158,7 @@ class SearchViewController: UIViewController {
             tableView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 10),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            tableViewHeightConstraint 
         ])
         
         tableView.isHidden = true
@@ -155,6 +172,15 @@ class SearchViewController: UIViewController {
     private func hideNoResultsLabel() {
         noResultsLabel.isHidden = true
         collectionView.isHidden = false
+    }
+    
+    @objc func didTapOutside(_ sender: UITapGestureRecognizer) {
+        let location = sender.location(in: view)
+        
+        if !tableView.frame.contains(location) {
+            tableView.isHidden = true
+        }
+        
     }
 }
 
@@ -188,7 +214,6 @@ extension SearchViewController: UISearchBarDelegate {
         NSLayoutConstraint.activate([
             searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
         ])
-        
         viewModel.searchImages(query: query)
         viewModel.saveSearchQuery(query)
         print(viewModel.getSearchHistory())
@@ -197,6 +222,7 @@ extension SearchViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         filterSuggestions(searchText)
+        tableView.reloadData() // Перезагружаем таблицу с новыми данными
         adjustTableViewHeight()
     }
 }
@@ -248,9 +274,20 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomCollectionViewCell
         let result = viewModel.results[indexPath.item]
-        cell.imageView.loadImage(from: URL(string: result.urls.thumb)!)
-        cell.label.text = result.description
+        
+        if let url = URL(string: result.urls.regular) {
+            cell.imageView.loadImage(from: url, placeholder: UIImage(named: "placeholder"))
+        }
+        cell.label.text = result.description ?? "📷"
+        
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        let result = viewModel.results[indexPath.item]
+        if let url = URL(string: result.urls.regular) {
+            (cell as? CustomCollectionViewCell)?.imageView.loadImage(from: url, placeholder: UIImage(named: "placeholder"))
+        }
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -262,5 +299,31 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         if offsetY > contentHeight - frameHeight * 2 && !viewModel.results.isEmpty {
             viewModel.loadMoreImages(query: searchBar.text ?? "")
         }
+    }
+    
+    @objc private func changeDisplayFormat(_ sender: UISegmentedControl) {
+        let layout = UICollectionViewFlowLayout()
+        
+        if sender.selectedSegmentIndex == 0 {
+            updateLayoutForTwoColumns(layout)
+        } else {
+            updateLayoutForSingleColumn(layout)
+        }
+        
+        collectionView.setCollectionViewLayout(layout, animated: true)
+    }
+    
+    private func updateLayoutForTwoColumns(_ layout: UICollectionViewFlowLayout) {
+        let itemWidth = (view.frame.width - 30) / 2 // 2 столбца
+        layout.itemSize = CGSize(width: itemWidth, height: itemWidth)
+        layout.minimumInteritemSpacing = 10
+        layout.minimumLineSpacing = 10
+    }
+    
+    private func updateLayoutForSingleColumn(_ layout: UICollectionViewFlowLayout) {
+        let itemWidth = view.frame.width - 20 // Одна плитка
+        layout.itemSize = CGSize(width: itemWidth, height: itemWidth)
+        layout.minimumInteritemSpacing = 10
+        layout.minimumLineSpacing = 10
     }
 }

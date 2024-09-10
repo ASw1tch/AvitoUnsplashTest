@@ -49,6 +49,7 @@ class NetworkManager {
                 }
             }
         }
+        print(url)
         task.resume()
     }
 }

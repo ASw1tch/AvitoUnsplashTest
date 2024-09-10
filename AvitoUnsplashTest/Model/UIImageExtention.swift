@@ -7,30 +7,33 @@
 
 import UIKit
 
+let imageCache = NSCache<NSString, UIImage>()
+
 extension UIImageView {
-    func loadImage(from url: URL, placeholder: UIImage? = nil) {
-        // Set a placeholder image (optional)
-        if let placeholder = placeholder {
-            self.image = placeholder
+    func loadImage(from url: URL, placeholder: UIImage?) {
+        self.image = placeholder
+        
+        if let cachedImage = imageCache.object(forKey: url.absoluteString as NSString) {
+            self.image = cachedImage
+            return
         }
         
-        // Create a URL session to download the image data
-        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-            // Handle error or no data
-            if let error = error {
-                print("Failed to load image: \(error)")
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data, let image = UIImage(data: data), error == nil else {
                 return
             }
             
-            guard let data = data, let downloadedImage = UIImage(data: data) else {
-                print("Invalid image data")
-                return
-            }
+            imageCache.setObject(image, forKey: url.absoluteString as NSString)
             
-            // Update the UIImageView on the main thread
             DispatchQueue.main.async {
-                self?.image = downloadedImage
+                UIView.transition(with: self,
+                                  duration: 0.3,
+                                  options: .transitionCrossDissolve,
+                                  animations: {
+                    self.image = image
+                },
+                                  completion: nil)
             }
-        }.resume()  // Start the URL session task
+        }.resume()
     }
 }
