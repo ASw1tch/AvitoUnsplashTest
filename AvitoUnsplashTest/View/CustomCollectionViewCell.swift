@@ -9,7 +9,6 @@ import UIKit
 
 class CustomCollectionViewCell: UICollectionViewCell {
     
-    // Create the UILabel and UIImageView as properties of the cell
     let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -27,18 +26,14 @@ class CustomCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        // Add the imageView and label to the content view
+    
         contentView.addSubview(imageView)
         contentView.addSubview(label)
         
-        // Enable auto layout
         imageView.translatesAutoresizingMaskIntoConstraints = false
         label.translatesAutoresizingMaskIntoConstraints = false
         
-        // Set constraints for the imageView and label
         NSLayoutConstraint.activate([
-            // Image view constraints (top of the cell, width and height)
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
@@ -61,7 +56,6 @@ class CustomCollectionViewCell: UICollectionViewCell {
         super.init(coder: coder)
     }
     
-    // Method to configure the cell with data
     func configure(with image: UIImage, text: String) {
         imageView.image = image
         label.text = text

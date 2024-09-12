@@ -7,17 +7,18 @@
 
 import UIKit
 
-class SearchViewController: UIViewController {
+class SearchViewController: UIViewController, UICollectionViewDataSourcePrefetching {
     
     private var searchBar: UISearchBar!
     private var collectionView: UICollectionView!
-    private var activityIndicator: UIActivityIndicatorView!
+    private var activityIndicator = UIActivityIndicatorView(style: .large)
     private var noResultsLabel: UILabel!
     private var tableView: UITableView!
     private var displayFormatControl: UISegmentedControl!
     
     
     private var viewModel = SearchViewModel()
+    private var networkManager = NetworkManager()
     private var suggestions: [String] = []
     private var filteredSuggestions: [String] = []
     private var isFirstPageLoading = true
@@ -34,6 +35,7 @@ class SearchViewController: UIViewController {
         
         suggestions = viewModel.getSearchHistory()
         filteredSuggestions = suggestions
+        collectionView.prefetchDataSource = self
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapOutside))
         tapGesture.cancelsTouchesInView = false
@@ -74,6 +76,7 @@ class SearchViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.accessibilityIdentifier = "CollectionViewIdentifier"
         view.addSubview(collectionView)
         
         displayFormatControl = UISegmentedControl(items: ["Two Columns", "Single Column"])
@@ -82,6 +85,11 @@ class SearchViewController: UIViewController {
         displayFormatControl.translatesAutoresizingMaskIntoConstraints = false
         displayFormatControl.isHidden = true
         view.addSubview(displayFormatControl)
+        
+        activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.center = view.center
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(activityIndicator)
        
         NSLayoutConstraint.activate([
             searchBar.centerYAnchor.constraint(equalTo: view.centerYAnchor),
@@ -97,12 +105,16 @@ class SearchViewController: UIViewController {
             displayFormatControl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             collectionView.topAnchor.constraint(equalTo: displayFormatControl.bottomAnchor, constant: 10),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
             noResultsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            noResultsLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            noResultsLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            activityIndicator.heightAnchor.constraint(equalToConstant: 37)
         ])
     }
     
@@ -121,16 +133,21 @@ class SearchViewController: UIViewController {
         
         viewModel.onError = { [weak self] errorMessage in
             DispatchQueue.main.async {
-                let alert = UIAlertController(title: "Error", message: errorMessage, preferredStyle: .alert)
+                let errorDetails = self?.networkManager.getErrorDetails(from: errorMessage) ?? "An unknown error occurred"
+                
+                let alert = UIAlertController(title: "Something went wrong", message: errorDetails, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default))
+                
                 self?.present(alert, animated: true)
             }
         }
         
         viewModel.onSuccess = { [weak self] in
             DispatchQueue.main.async {
-                self?.collectionView.reloadData()
+                    self?.activityIndicator.stopAnimating()
+                    self?.collectionView.reloadData()
                 if self?.viewModel.results.isEmpty == true {
+                    self?.activityIndicator.stopAnimating()
                     self?.showNoResultsLabel()
                     self?.displayFormatControl.isHidden = true
                 } else {
@@ -140,6 +157,10 @@ class SearchViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    func retryLastAction() {
+        viewModel.fetchImages(query: searchBar.text ?? "")
     }
     
     
@@ -158,7 +179,7 @@ class SearchViewController: UIViewController {
             tableView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 10),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableViewHeightConstraint 
+            tableViewHeightConstraint
         ])
         
         tableView.isHidden = true
@@ -210,19 +231,24 @@ extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let query = searchBar.text, !query.isEmpty else { return }
         
+        viewModel.results.removeAll()
+        collectionView.reloadData()
+        
         NSLayoutConstraint.deactivate(view.constraints.filter { $0.firstAnchor == searchBar.centerYAnchor })
         NSLayoutConstraint.activate([
             searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
         ])
-        viewModel.searchImages(query: query)
+        
+        activityIndicator.startAnimating()
+        viewModel.fetchImages(query: query)
         viewModel.saveSearchQuery(query)
-        print(viewModel.getSearchHistory())
+        suggestions = viewModel.getSearchHistory()
         searchBar.resignFirstResponder()
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         filterSuggestions(searchText)
-        tableView.reloadData() // Перезагружаем таблицу с новыми данными
+        tableView.reloadData()
         adjustTableViewHeight()
     }
 }
@@ -243,9 +269,13 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         let selectedSuggestion = filteredSuggestions[indexPath.row]
         searchBar.text = selectedSuggestion
         viewModel.saveSearchQuery(selectedSuggestion)
+        
         tableView.isHidden = true
-        viewModel.searchImages(query: selectedSuggestion)
+        viewModel.fetchImages(query: selectedSuggestion)
         searchBarSearchButtonClicked(searchBar)
+        
+        filteredSuggestions.append(selectedSuggestion)
+        tableView.reloadData()
     }
     
     func adjustTableViewHeight() {
@@ -263,6 +293,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
 
 // MARK: - UICollectionViewDelegate and UICollectionViewDataSource
 extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -273,20 +304,54 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomCollectionViewCell
+       
         let result = viewModel.results[indexPath.item]
         
         if let url = URL(string: result.urls.regular) {
             cell.imageView.loadImage(from: url, placeholder: UIImage(named: "placeholder"))
+        } else {
+            cell.imageView.image = UIImage(named: "placeholder_gray")
         }
-        cell.label.text = result.description ?? "📷"
+        if let description = result.description, !description.isEmpty {
+            cell.label.text = result.description ?? "📷"
+            cell.isHidden = false
+        } else {
+            cell.isHidden = true
+        }
         
         return cell
     }
+    
+    
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         let result = viewModel.results[indexPath.item]
         if let url = URL(string: result.urls.regular) {
             (cell as? CustomCollectionViewCell)?.imageView.loadImage(from: url, placeholder: UIImage(named: "placeholder"))
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let result = viewModel.results[indexPath.item]
+        
+        let detailVC = DetailViewController()
+        
+        // Передаем данные
+        detailVC.userImageUrl = result.user.profileImage.medium
+        detailVC.username = result.user.username
+        detailVC.photoUrl = result.urls.regular
+        detailVC.photoDescription = result.description
+        
+        // Переходим на DetailViewController
+        navigationController?.pushViewController(detailVC, animated: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        for indexPath in indexPaths {
+            let result = viewModel.results[indexPath.item]
+            if let url = URL(string: result.urls.regular) {
+                URLSession.shared.dataTask(with: url).resume()
+            }
         }
     }
     
@@ -297,7 +362,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         
         
         if offsetY > contentHeight - frameHeight * 2 && !viewModel.results.isEmpty {
-            viewModel.loadMoreImages(query: searchBar.text ?? "")
+            viewModel.fetchImages(query: searchBar.text ?? "", isLoadMore: true)
         }
     }
     
@@ -314,16 +379,19 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     private func updateLayoutForTwoColumns(_ layout: UICollectionViewFlowLayout) {
-        let itemWidth = (view.frame.width - 30) / 2 // 2 столбца
+        let itemWidth = (view.frame.width - 30) / 2
         layout.itemSize = CGSize(width: itemWidth, height: itemWidth)
         layout.minimumInteritemSpacing = 10
         layout.minimumLineSpacing = 10
     }
     
     private func updateLayoutForSingleColumn(_ layout: UICollectionViewFlowLayout) {
-        let itemWidth = view.frame.width - 20 // Одна плитка
+        let itemWidth = view.frame.width - 20 
         layout.itemSize = CGSize(width: itemWidth, height: itemWidth)
         layout.minimumInteritemSpacing = 10
         layout.minimumLineSpacing = 10
     }
 }
+
+
+

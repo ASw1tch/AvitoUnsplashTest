@@ -18,10 +18,21 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <connections>
+                        <segue destination="FSf-wb-ay3" kind="presentation" identifier="toDetailVC" id="QQ0-zI-xy6"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="89" y="-27"/>
+        </scene>
+        <!--Detail View Controller-->
+        <scene sceneID="iDf-6F-7GV">
+            <objects>
+                <viewController id="FSf-wb-ay3" customClass="DetailViewController" customModule="AvitoUnsplashTest" customModuleProvider="target" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vtt-ad-zMU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="946" y="-27"/>
         </scene>
     </scenes>
     <resources>

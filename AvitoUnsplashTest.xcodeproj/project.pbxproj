@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EA2371652C92EAEB00906AE6 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2371642C92EAEB00906AE6 /* DetailViewController.swift */; };
+		EA23717E2C936FE900906AE6 /* AvitoUnsplashUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA23717D2C936FE900906AE6 /* AvitoUnsplashUITests.swift */; };
+		EA2371802C936FE900906AE6 /* AvitoUnsplashUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA23717F2C936FE900906AE6 /* AvitoUnsplashUITestsLaunchTests.swift */; };
+		EA23718D2C93703200906AE6 /* AvitoUnsplashTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA23718C2C93703200906AE6 /* AvitoUnsplashTests.swift */; };
 		EA2F8DFA2C8DAEC30023AB4C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2F8DF92C8DAEC30023AB4C /* AppDelegate.swift */; };
 		EA2F8DFC2C8DAEC30023AB4C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2F8DFB2C8DAEC30023AB4C /* SceneDelegate.swift */; };
 		EA2F8DFE2C8DAEC30023AB4C /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2F8DFD2C8DAEC30023AB4C /* SearchViewController.swift */; };
@@ -21,7 +25,38 @@
 		EAF6CAD82C8DE396004AFC99 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF6CAD72C8DE396004AFC99 /* NetworkManager.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		EA2371722C936FAF00906AE6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EA2F8DEE2C8DAEC30023AB4C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EA2F8DF52C8DAEC30023AB4C;
+			remoteInfo = AvitoUnsplashTest;
+		};
+		EA2371812C936FE900906AE6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EA2F8DEE2C8DAEC30023AB4C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EA2F8DF52C8DAEC30023AB4C;
+			remoteInfo = AvitoUnsplashTest;
+		};
+		EA23718E2C93703200906AE6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EA2F8DEE2C8DAEC30023AB4C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EA2F8DF52C8DAEC30023AB4C;
+			remoteInfo = AvitoUnsplashTest;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		EA2371642C92EAEB00906AE6 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		EA23716E2C936FAF00906AE6 /* AvitoUnsplashTestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AvitoUnsplashTestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA23717B2C936FE900906AE6 /* AvitoUnsplashUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AvitoUnsplashUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA23717D2C936FE900906AE6 /* AvitoUnsplashUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvitoUnsplashUITests.swift; sourceTree = "<group>"; };
+		EA23717F2C936FE900906AE6 /* AvitoUnsplashUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvitoUnsplashUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		EA23718A2C93703100906AE6 /* AvitoUnsplashTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AvitoUnsplashTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA23718C2C93703200906AE6 /* AvitoUnsplashTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvitoUnsplashTests.swift; sourceTree = "<group>"; };
 		EA2F8DF62C8DAEC30023AB4C /* AvitoUnsplashTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AvitoUnsplashTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA2F8DF92C8DAEC30023AB4C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EA2F8DFB2C8DAEC30023AB4C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -39,6 +74,27 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		EA23716B2C936FAF00906AE6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA2371782C936FE900906AE6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA2371872C93703100906AE6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EA2F8DF32C8DAEC30023AB4C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -49,10 +105,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EA23717C2C936FE900906AE6 /* AvitoUnsplashUITests */ = {
+			isa = PBXGroup;
+			children = (
+				EA23717D2C936FE900906AE6 /* AvitoUnsplashUITests.swift */,
+				EA23717F2C936FE900906AE6 /* AvitoUnsplashUITestsLaunchTests.swift */,
+			);
+			path = AvitoUnsplashUITests;
+			sourceTree = "<group>";
+		};
+		EA23718B2C93703200906AE6 /* AvitoUnsplashTests */ = {
+			isa = PBXGroup;
+			children = (
+				EA23718C2C93703200906AE6 /* AvitoUnsplashTests.swift */,
+			);
+			path = AvitoUnsplashTests;
+			sourceTree = "<group>";
+		};
 		EA2F8DED2C8DAEC30023AB4C = {
 			isa = PBXGroup;
 			children = (
 				EA2F8DF82C8DAEC30023AB4C /* AvitoUnsplashTest */,
+				EA23717C2C936FE900906AE6 /* AvitoUnsplashUITests */,
+				EA23718B2C93703200906AE6 /* AvitoUnsplashTests */,
 				EA2F8DF72C8DAEC30023AB4C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -61,6 +136,9 @@
 			isa = PBXGroup;
 			children = (
 				EA2F8DF62C8DAEC30023AB4C /* AvitoUnsplashTest.app */,
+				EA23716E2C936FAF00906AE6 /* AvitoUnsplashTestTests.xctest */,
+				EA23717B2C936FE900906AE6 /* AvitoUnsplashUITests.xctest */,
+				EA23718A2C93703100906AE6 /* AvitoUnsplashTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -81,9 +159,10 @@
 			isa = PBXGroup;
 			children = (
 				EA2F8DFD2C8DAEC30023AB4C /* SearchViewController.swift */,
+				EA2371642C92EAEB00906AE6 /* DetailViewController.swift */,
+				EAF6CAD52C8DC8F2004AFC99 /* CustomCollectionViewCell.swift */,
 				EA2F8E042C8DAEC40023AB4C /* LaunchScreen.storyboard */,
 				EA2F8DFF2C8DAEC30023AB4C /* Main.storyboard */,
-				EAF6CAD52C8DC8F2004AFC99 /* CustomCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -120,6 +199,60 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		EA23716D2C936FAF00906AE6 /* AvitoUnsplashTestTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EA2371742C936FAF00906AE6 /* Build configuration list for PBXNativeTarget "AvitoUnsplashTestTests" */;
+			buildPhases = (
+				EA23716A2C936FAF00906AE6 /* Sources */,
+				EA23716B2C936FAF00906AE6 /* Frameworks */,
+				EA23716C2C936FAF00906AE6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EA2371732C936FAF00906AE6 /* PBXTargetDependency */,
+			);
+			name = AvitoUnsplashTestTests;
+			productName = AvitoUnsplashTestTests;
+			productReference = EA23716E2C936FAF00906AE6 /* AvitoUnsplashTestTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		EA23717A2C936FE900906AE6 /* AvitoUnsplashUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EA2371832C936FE900906AE6 /* Build configuration list for PBXNativeTarget "AvitoUnsplashUITests" */;
+			buildPhases = (
+				EA2371772C936FE900906AE6 /* Sources */,
+				EA2371782C936FE900906AE6 /* Frameworks */,
+				EA2371792C936FE900906AE6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EA2371822C936FE900906AE6 /* PBXTargetDependency */,
+			);
+			name = AvitoUnsplashUITests;
+			productName = AvitoUnsplashUITests;
+			productReference = EA23717B2C936FE900906AE6 /* AvitoUnsplashUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		EA2371892C93703100906AE6 /* AvitoUnsplashTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EA2371902C93703200906AE6 /* Build configuration list for PBXNativeTarget "AvitoUnsplashTests" */;
+			buildPhases = (
+				EA2371862C93703100906AE6 /* Sources */,
+				EA2371872C93703100906AE6 /* Frameworks */,
+				EA2371882C93703100906AE6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EA23718F2C93703200906AE6 /* PBXTargetDependency */,
+			);
+			name = AvitoUnsplashTests;
+			productName = AvitoUnsplashTests;
+			productReference = EA23718A2C93703100906AE6 /* AvitoUnsplashTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		EA2F8DF52C8DAEC30023AB4C /* AvitoUnsplashTest */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = EA2F8E0A2C8DAEC40023AB4C /* Build configuration list for PBXNativeTarget "AvitoUnsplashTest" */;
@@ -147,6 +280,18 @@
 				LastSwiftUpdateCheck = 1540;
 				LastUpgradeCheck = 1540;
 				TargetAttributes = {
+					EA23716D2C936FAF00906AE6 = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = EA2F8DF52C8DAEC30023AB4C;
+					};
+					EA23717A2C936FE900906AE6 = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = EA2F8DF52C8DAEC30023AB4C;
+					};
+					EA2371892C93703100906AE6 = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = EA2F8DF52C8DAEC30023AB4C;
+					};
 					EA2F8DF52C8DAEC30023AB4C = {
 						CreatedOnToolsVersion = 15.4;
 					};
@@ -166,11 +311,35 @@
 			projectRoot = "";
 			targets = (
 				EA2F8DF52C8DAEC30023AB4C /* AvitoUnsplashTest */,
+				EA23716D2C936FAF00906AE6 /* AvitoUnsplashTestTests */,
+				EA23717A2C936FE900906AE6 /* AvitoUnsplashUITests */,
+				EA2371892C93703100906AE6 /* AvitoUnsplashTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		EA23716C2C936FAF00906AE6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA2371792C936FE900906AE6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA2371882C93703100906AE6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EA2F8DF42C8DAEC30023AB4C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -184,6 +353,30 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		EA23716A2C936FAF00906AE6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA2371772C936FE900906AE6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA2371802C936FE900906AE6 /* AvitoUnsplashUITestsLaunchTests.swift in Sources */,
+				EA23717E2C936FE900906AE6 /* AvitoUnsplashUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA2371862C93703100906AE6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA23718D2C93703200906AE6 /* AvitoUnsplashTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EA2F8DF22C8DAEC30023AB4C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -195,12 +388,31 @@
 				EAF6CAD62C8DC8F2004AFC99 /* CustomCollectionViewCell.swift in Sources */,
 				EA2F8E132C8DC21E0023AB4C /* UnsplashResponse.swift in Sources */,
 				EA2F8DFC2C8DAEC30023AB4C /* SceneDelegate.swift in Sources */,
+				EA2371652C92EAEB00906AE6 /* DetailViewController.swift in Sources */,
 				EA2F8E152C8DC2640023AB4C /* AppConstants.swift in Sources */,
 				EAF6CAD42C8DC896004AFC99 /* UIImageExtention.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		EA2371732C936FAF00906AE6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EA2F8DF52C8DAEC30023AB4C /* AvitoUnsplashTest */;
+			targetProxy = EA2371722C936FAF00906AE6 /* PBXContainerItemProxy */;
+		};
+		EA2371822C936FE900906AE6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EA2F8DF52C8DAEC30023AB4C /* AvitoUnsplashTest */;
+			targetProxy = EA2371812C936FE900906AE6 /* PBXContainerItemProxy */;
+		};
+		EA23718F2C93703200906AE6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EA2F8DF52C8DAEC30023AB4C /* AvitoUnsplashTest */;
+			targetProxy = EA23718E2C93703200906AE6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		EA2F8DFF2C8DAEC30023AB4C /* Main.storyboard */ = {
@@ -222,6 +434,112 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		EA2371752C936FAF00906AE6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RWP28CYWVZ;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = aswitch.me.AvitoUnsplashTestTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AvitoUnsplashTest.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/AvitoUnsplashTest";
+			};
+			name = Debug;
+		};
+		EA2371762C936FAF00906AE6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RWP28CYWVZ;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = aswitch.me.AvitoUnsplashTestTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AvitoUnsplashTest.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/AvitoUnsplashTest";
+			};
+			name = Release;
+		};
+		EA2371842C936FE900906AE6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RWP28CYWVZ;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = aswitch.me.AvitoUnsplashUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = AvitoUnsplashTest;
+			};
+			name = Debug;
+		};
+		EA2371852C936FE900906AE6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RWP28CYWVZ;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = aswitch.me.AvitoUnsplashUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = AvitoUnsplashTest;
+			};
+			name = Release;
+		};
+		EA2371912C93703200906AE6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RWP28CYWVZ;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = aswitch.me.AvitoUnsplashTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AvitoUnsplashTest.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/AvitoUnsplashTest";
+			};
+			name = Debug;
+		};
+		EA2371922C93703200906AE6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RWP28CYWVZ;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = aswitch.me.AvitoUnsplashTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AvitoUnsplashTest.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/AvitoUnsplashTest";
+			};
+			name = Release;
+		};
 		EA2F8E082C8DAEC40023AB4C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -400,6 +718,33 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		EA2371742C936FAF00906AE6 /* Build configuration list for PBXNativeTarget "AvitoUnsplashTestTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EA2371752C936FAF00906AE6 /* Debug */,
+				EA2371762C936FAF00906AE6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EA2371832C936FE900906AE6 /* Build configuration list for PBXNativeTarget "AvitoUnsplashUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EA2371842C936FE900906AE6 /* Debug */,
+				EA2371852C936FE900906AE6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EA2371902C93703200906AE6 /* Build configuration list for PBXNativeTarget "AvitoUnsplashTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EA2371912C93703200906AE6 /* Debug */,
+				EA2371922C93703200906AE6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		EA2F8DF12C8DAEC30023AB4C /* Build configuration list for PBXProject "AvitoUnsplashTest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
