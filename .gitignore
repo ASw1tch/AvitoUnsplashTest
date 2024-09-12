@@ -126,7 +126,6 @@ DerivedData/
 build/
 
 # Files with constants
-appConstants.swift
 
 
 # End of https://www.toptal.com/developers/gitignore/api/xcode,swift
